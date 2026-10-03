@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LearnNova AI — Smarter Learning. Better Use of Time. Greater Potential.">
+<title>LearnNova AI</title>
+<style>
+:root{
+  --purple:#6d4aff;--purple2:#8b6cff;--blue:#3d8bfd;--ink:#17152b;
+  --muted:#77758d;--bg:#f7f7fc;--card:#fff;--line:#e9e7f2;
+  --green:#1da66a;--shadow:0 16px 45px rgba(54,39,130,.09)
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+button,input,select{font:inherit}button{cursor:pointer;border:0}
+.app{display:flex;min-height:100vh}
+.sidebar{width:245px;background:#fff;border-right:1px solid var(--line);padding:22px 15px;position:fixed;inset:0 auto 0 0;z-index:10}
+.brand{display:flex;align-items:center;gap:11px;padding:3px 9px 28px}
+.logo{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;display:grid;place-items:center;font-size:22px;box-shadow:0 10px 25px #6d4aff35}
+.brand b{font-size:18px}.brand small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+nav{display:grid;gap:4px}
+nav button{background:transparent;color:#6f6d82;padding:11px 13px;border-radius:12px;text-align:left;display:flex;gap:11px;align-items:center;font-size:14px}
+nav button:hover,nav button.active{background:#f0edff;color:var(--purple);font-weight:700}
+.creator-mini{position:absolute;left:15px;right:15px;bottom:18px;padding:13px;border-radius:15px;background:#f5f2ff;border:1px solid #e7e0ff;font-size:11px}
+.creator-mini strong{display:block;margin-bottom:4px}.creator-mini span{color:var(--muted)}
+main{margin-left:245px;width:calc(100% - 245px);padding:25px 32px 55px}
+.page{display:none;max-width:1180px;margin:auto}.page.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.top h1{font-size:31px}.top p{color:var(--muted);font-size:13px;margin-top:4px}
+.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;background:linear-gradient(135deg,var(--purple),var(--blue))}
+.hero{position:relative;overflow:hidden;color:#fff;border-radius:26px;padding:36px;margin-bottom:20px;background:linear-gradient(135deg,#5a3be5,#7759f5 58%,#438ef5);box-shadow:0 18px 45px #5d43dc35}
+.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-130px;background:#ffffff18}
+.hero>*{position:relative;z-index:1}.hero h2{font-size:39px;max-width:650px}.hero p{max-width:650px;line-height:1.6;color:#ffffffd8;margin:9px 0 22px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:11px 16px;border-radius:11px;font-weight:700;transition:.2s}
+.primary{background:var(--purple);color:#fff}.primary:hover{background:#5839e4;transform:translateY(-1px)}
+.white{background:#fff;color:var(--purple)}.light{background:#f0edff;color:var(--purple)}
+.grid{display:grid;gap:17px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+.stat{display:flex;align-items:center;gap:13px}.stat-icon{width:45px;height:45px;border-radius:13px;background:#f0edff;display:grid;place-items:center;font-size:20px}.stat small{color:var(--muted);display:block}.stat strong{font-size:21px}
+.section{display:flex;justify-content:space-between;align-items:center;margin:27px 0 13px}.section h2{font-size:20px}.section span{color:var(--muted);font-size:12px}
+.reco{display:flex;align-items:center;gap:15px}.reco-icon{width:53px;height:53px;border-radius:15px;background:#fff2d2;display:grid;place-items:center;font-size:25px}.reco p,.subject p,.muted{color:var(--muted);font-size:13px;line-height:1.5}.reco-main{flex:1}.reco h3{margin-bottom:4px}
+.subject{cursor:pointer;transition:.2s}.subject:hover{transform:translateY(-3px);box-shadow:0 18px 42px #33236d18}.subject-icon{font-size:25px;width:49px;height:49px;border-radius:14px;background:#f0edff;display:grid;place-items:center;margin-bottom:14px}.subject h3{margin-bottom:6px}
+.progress{height:7px;background:#ecebf3;border-radius:20px;overflow:hidden}.progress div{height:100%;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:20px}.plabel{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:7px}
+.chat{height:550px;display:flex;flex-direction:column}.messages{flex:1;overflow:auto;padding:5px}.msg{display:flex;margin:12px 0}.msg.user{justify-content:flex-end}.bubble{max-width:75%;padding:12px 15px;border-radius:15px;line-height:1.5;font-size:14px}.msg.ai .bubble{background:#f0eef8}.msg.user .bubble{background:var(--purple);color:#fff}.chatbar{display:flex;gap:8px;border-top:1px solid var(--line);padding-top:14px}.chatbar input{flex:1;border:1px solid var(--line);border-radius:11px;padding:12px;outline:none}
+.upload{border:2px dashed #cec8ec;border-radius:18px;padding:48px 20px;text-align:center;background:#fbfaff}.upload .big{font-size:43px}.upload p{color:var(--muted);font-size:13px;margin:8px 0 19px}.file-actions{display:none;margin-top:20px}.action-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.action{background:#fff;border:1px solid var(--line);padding:14px;border-radius:12px;font-weight:700}.action:hover{border-color:var(--purple);color:var(--purple)}
+.form{display:grid;gap:15px}.form label{font-size:12px;font-weight:700;display:block;margin-bottom:6px}.form input,.form select{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:#fff;outline:none}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:13px 9px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-size:11px}
+.creator{display:flex;gap:22px;align-items:center;background:linear-gradient(135deg,#fff,#f4f1ff)}.creator-avatar{width:88px;height:88px;border-radius:24px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;display:grid;place-items:center;font-size:26px;font-weight:800;flex:none}.creator p{color:var(--muted);line-height:1.6;font-size:13px;margin-top:5px}.email{display:inline-block;color:var(--purple);margin-top:9px;font-size:13px;text-decoration:none}
+.toast{position:fixed;right:22px;bottom:22px;background:#191827;color:#fff;padding:13px 17px;border-radius:12px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s;z-index:99;font-size:13px}.toast.show{opacity:1;transform:none}
+.onboarding{position:fixed;inset:0;background:radial-gradient(circle at 10% 10%,#e9e3ff,transparent 35%),#f7f8ff;z-index:50;display:flex;align-items:center;justify-content:center;padding:20px}
+.on-card{width:min(620px,100%);background:#fff;border:1px solid var(--line);border-radius:25px;padding:34px;box-shadow:0 25px 75px #34217b18}.on-brand{text-align:center;margin-bottom:22px}.on-brand .logo{margin:auto}.on-brand h1{margin-top:11px}.on-brand p{color:var(--muted);font-size:12px}
+.steps{display:flex;gap:6px;margin-bottom:24px}.dot{height:5px;flex:1;background:#e8e7ef;border-radius:10px}.dot.active{background:var(--purple)}
+.step{display:none}.step.active{display:block}.step h2{margin-bottom:7px}.step>p{color:var(--muted);font-size:13px;margin-bottom:20px}.on-buttons{display:flex;justify-content:space-between;margin-top:22px}
+.mobile{display:none}
+@media(max-width:1050px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}.action-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.sidebar{display:none}main{margin:0;width:100%;padding:16px}.mobile{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.g4,.g3,.g2{grid-template-columns:1fr}.hero{padding:27px}.hero h2{font-size:29px}.creator{flex-direction:column;text-align:center}.action-grid{grid-template-columns:1fr 1fr}.top h1{font-size:25px}}
+</style>
+</head>
+<body>
+
+<div id="onboarding" class="onboarding">
+  <div class="on-card">
+    <div class="on-brand">
+      <div class="logo">✦</div>
+      <h1>LearnNova AI</h1>
+      <p>Smarter Learning. Better Use of Time. Greater Potential.</p>
+    </div>
+    <div class="steps"><i class="dot active"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></div>
+
+    <div class="step active" data-step="1"><h2>Which country are you studying in? 🌍</h2><p>We'll use this to understand your educational context.</p><div class="form"><div><label>Country</label><select id="country"><option value="">Select country</option><option>Morocco</option><option>France</option><option>Algeria</option><option>Tunisia</option><option>Canada</option><option>United States</option><option>United Kingdom</option><option>Spain</option><option>Other</option></select></div></div></div>
+    <div class="step" data-step="2"><h2>How old are you? 🎓</h2><p>Your age helps us adapt explanations to your educational stage.</p><div class="form"><div><label>Age</label><input id="age" type="number" min="10" max="100" placeholder="Enter your age"></div></div></div>
+    <div class="step" data-step="3"><h2>What's your current level?</h2><p>Tell us where you are in your educational journey.</p><div class="form"><div><label>Academic level</label><select id="level"><option value="">Select level</option><option>Middle School</option><option>High School</option><option>First year of High School</option><option>Second year of High School</option><option>Final year of High School</option><option>Bachelor's — Year 1</option><option>Bachelor's — Year 2</option><option>Bachelor's — Year 3</option><option>Master's — Year 1</option><option>Master's — Year 2</option><option>Other</option></select></div></div></div>
+    <div class="step" data-step="4"><h2>What academic year are you studying?</h2><p>For example, 2026–2027.</p><div class="form"><div><label>Academic year</label><input id="academicYear" placeholder="2026–2027"></div></div></div>
+    <div class="step" data-step="5"><h2>What's your field or stream? 📚</h2><p>This helps personalize your subjects and recommendations.</p><div class="form"><div><label>Field / Stream</label><select id="field"><option value="">Select field</option><option>Science</option><option>Mathematics</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>Economics</option><option>Business</option><option>Literature</option><option>Languages</option><option>Computer Science</option><option>Engineering</option><option>Medicine</option><option>Law</option><option>Other</option></select></div></div></div>
+
+    <div class="on-buttons"><button id="back" class="btn light" onclick="prevStep()">Back</button><button id="next" class="btn primary" onclick="nextStep()">Continue</button></div>
+  </div>
+</div>
+
+<div id="app" class="app" style="display:none">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">✦</div><div><b>LearnNova</b><small>AI Study Partner</small></div></div>
+    <nav>
+      <button class="active" onclick="showPage('home',this)">🏠 Home</button>
+      <button onclick="showPage('learning',this)">📚 My Learning</button>
+      <button onclick="showPage('tutor',this)">🤖 AI Tutor</button>
+      <button onclick="showPage('upload',this)">📄 Upload</button>
+      <button onclick="showPage('podcasts',this)">🎧 Podcasts</button>
+      <button onclick="showPage('practice',this)">🧠 Practice</button>
+      <button onclick="showPage('tests',this)">📋 Tests</button>
+      <button onclick="showPage('exams',this)">🎯 Exams</button>
+      <button onclick="showPage('progress',this)">📊 Progress</button>
+      <button onclick="showPage('profile',this)">⚙️ Profile</button>
+    </nav>
+    <div class="creator-mini"><strong>Created by Khaoula Lamghari</strong><span>Building smarter learning tools.</span></div>
+  </aside>
+
+  <main>
+    <div class="mobile"><strong>✦ LearnNova</strong><div class="avatar">KL</div></div>
+
+    <section id="home" class="page active">
+      <div class="top"><div><h1 id="welcome">Welcome back 👋</h1><p id="subtitle">Your personalized learning journey starts here.</p></div><div class="avatar">KL</div></div>
+      <div class="hero"><h2>Learn smarter. Every day.</h2><p>Your AI study partner adapts to your academic level, subjects, progress and learning needs.</p><div class="actions"><button class="btn white" onclick="showPage('tutor')">🤖 Ask LearnNova Tutor</button><button class="btn white" onclick="showPage('upload')">📄 Study a Lesson</button></div></div>
+
+      <div class="grid g4">
+        <div class="card stat"><div class="stat-icon">📖</div><div><small>Lessons completed</small><strong>12</strong></div></div>
+        <div class="card stat"><div class="stat-icon">🧠</div><div><small>Exercises</small><strong>86</strong></div></div>
+        <div class="card stat"><div class="stat-icon">📋</div><div><small>Average score</small><strong>78%</strong></div></div>
+        <div class="card stat"><div class="stat-icon">⏱️</div><div><small>Study time</small><strong>8.4h</strong></div></div>
+      </div>
+
+      <div class="section"><h2>What should I study today?</h2></div>
+      <div class="card reco"><div class="reco-icon">🎯</div><div class="reco-main"><h3>Review derivatives</h3><p>Your recent practice suggests that derivatives could benefit from another review session.</p></div><button class="btn primary" onclick="toast('Study session started!')">Start</button></div>
+
+      <div class="section"><h2>My Subjects</h2><span>Your personalized program</span></div>
+      <div class="grid g3">
+        <div class="card subject" onclick="openSubject('Mathematics')"><div class="subject-icon">📐</div><h3>Mathematics</h3><p>Functions, algebra, probability and more.</p><div class="progress"><div style="width:78%"></div></div><div class="plabel"><span>Progress</span><span>78%</span></div></div>
+        <div class="card subject" onclick="openSubject('Physics')"><div class="subject-icon">⚛️</div><h3>Physics</h3><p>Mechanics, energy, electricity and more.</p><div class="progress"><div style="width:64%"></div></div><div class="plabel"><span>Progress</span><span>64%</span></div></div>
+        <div class="card subject" onclick="openSubject('Chemistry')"><div class="subject-icon">🧪</div><h3>Chemistry</h3><p>Reactions, molecules and chemical concepts.</p><div class="progress"><div style="width:85%"></div></div><div class="plabel"><span>Progress</span><span>85%</span></div></div>
+      </div>
+    </section>
+
+    <section id="learning" class="page">
+      <div class="top"><div><h1>My Learning 📚</h1><p>Your personalized subjects and lessons.</p></div></div>
+      <div class="card"><h2 id="subjectTitle">My Mathematics Program</h2><p class="muted" style="margin:7px 0 20px">Topics should be adapted to your verified curriculum.</p>
+        <div class="grid g2">
+          <div class="card subject"><h3>1. Algebra</h3><p>Understand the foundations of algebra.</p><button class="btn light" onclick="toast('Lesson opened')">Study lesson</button></div>
+          <div class="card subject"><h3>2. Functions</h3><p>Learn how functions work and how to analyze them.</p><button class="btn light" onclick="toast('Lesson opened')">Study lesson</button></div>
+          <div class="card subject"><h3>3. Derivatives</h3><p>Learn differentiation and applications.</p><button class="btn light" onclick="toast('Lesson opened')">Study lesson</button></div>
+          <div class="card subject"><h3>4. Probability</h3><p>Explore probability and statistical reasoning.</p><button class="btn light" onclick="toast('Lesson opened')">Study lesson</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tutor" class="page">
+      <div class="top"><div><h1>LearnNova Tutor 🤖</h1><p>Your personalized AI study partner.</p></div></div>
+      <div class="card chat"><div class="messages" id="messages"><div class="msg ai"><div class="bubble">👋 Hi! I'm LearnNova Tutor. Ask me about a lesson, formula, exercise, or anything you're studying.</div></div></div><div class="chatbar"><input id="chatInput" placeholder="Ask: Explain derivatives simply..." onkeydown="if(event.key==='Enter')sendMessage()"><button class="btn primary" onclick="sendMessage()">Send</button></div></div>
+    </section>
+
+    <section id="upload" class="page">
+      <div class="top"><div><h1>Study a Lesson 📄</h1><p>Upload your learning material and let LearnNova help.</p></div></div>
+      <div class="card">
+        <div class="upload"><div class="big">📚</div><h2>Upload your lesson</h2><p>PDF, Word documents, images, notes or other study materials.</p><input id="file" type="file" hidden accept=".pdf,.doc,.docx,.txt,image/*" onchange="fileSelected(this)"><button class="btn primary" onclick="document.getElementById('file').click()">Choose file</button><p id="filename"></p></div>
+        <div class="file-actions" id="fileActions"><h3 style="margin-bottom:12px">What would you like LearnNova to do?</h3><div class="action-grid">
+          <button class="action" onclick="uploadAction('Explain')">📖 Explain it</button><button class="action" onclick="uploadAction('Summarize')">📝 Summarize it</button><button class="action" onclick="uploadAction('Podcast')">🎧 Turn into podcast</button><button class="action" onclick="uploadAction('Exercises')">🧠 Create exercises</button><button class="action" onclick="uploadAction('Test')">📋 Create a test</button><button class="action" onclick="uploadAction('Questions')">❓ Ask questions</button><button class="action" onclick="uploadAction('Revision notes')">📚 Revision notes</button><button class="action" onclick="uploadAction('PDF')">📄 Create PDF</button>
+        </div></div>
+      </div>
+    </section>
+
+    <section id="podcasts" class="page">
+      <div class="top"><div><h1>My Podcasts 🎧</h1><p>Turn lessons into audio study sessions.</p></div></div>
+      <div class="grid g2">
+        <div class="card"><div style="font-size:36px">🎧</div><h3 style="margin-top:10px">Introduction to Derivatives</h3><p class="muted" style="margin:7px 0 17px">AI-generated educational podcast.</p><div class="progress"><div style="width:35%"></div></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px"><button class="btn primary" onclick="toast('Podcast playing...')">▶ Play</button><span class="muted">08:42</span></div></div>
+        <div class="card"><div style="font-size:36px">🎙️</div><h3 style="margin-top:10px">Physics — Mechanics</h3><p class="muted" style="margin:7px 0 17px">Your personalized revision podcast.</p><button class="btn primary" onclick="toast('Podcast playing...')">▶ Play</button></div>
+      </div>
+    </section>
+
+    <section id="practice" class="page">
+      <div class="top"><div><h1>Practice 🧠</h1><p>Build knowledge through active practice.</p></div></div>
+      <div class="grid g3"><div class="card"><h3>Easy</h3><p class="muted" style="margin:7px 0 18px">Basic understanding.</p><button class="btn primary" onclick="toast('Easy practice generated!')">Start</button></div><div class="card"><h3>Medium</h3><p class="muted" style="margin:7px 0 18px">Apply what you learned.</p><button class="btn primary" onclick="toast('Medium practice generated!')">Start</button></div><div class="card"><h3>Difficult</h3><p class="muted" style="margin:7px 0 18px">Advanced problem solving.</p><button class="btn primary" onclick="toast('Difficult practice generated!')">Start</button></div></div>
+    </section>
+
+    <section id="tests" class="page">
+      <div class="top"><div><h1>Tests 📋</h1><p>Test your knowledge and receive feedback.</p></div></div>
+      <div class="card"><h2>Recent tests</h2><div style="overflow:auto;margin-top:12px"><table><thead><tr><th>Test</th><th>Subject</th><th>Score</th><th>Status</th></tr></thead><tbody><tr><td>Functions Test</td><td>Mathematics</td><td>16/20</td><td>Completed</td></tr><tr><td>Mechanics Test</td><td>Physics</td><td>13/20</td><td>Completed</td></tr><tr><td>Chemistry Review</td><td>Chemistry</td><td>17/20</td><td>Completed</td></tr></tbody></table></div><button class="btn primary" style="margin-top:18px" onclick="toast('AI test generator opened')">+ Create AI Test</button></div>
+    </section>
+
+    <section id="exams" class="page">
+      <div class="top"><div><h1>Exam Preparation 🎯</h1><p>Create a personalized study plan.</p></div></div>
+      <div class="card"><h2>Build your exam plan</h2><p class="muted" style="margin:7px 0 20px">Tell LearnNova when your exam is and we'll organize your study time.</p><div class="grid g2"><div class="form"><div><label>Exam date</label><input id="examDate" type="date"></div></div><div class="form"><div><label>Study time per day</label><select><option>30 minutes</option><option>1 hour</option><option>2 hours</option><option>3+ hours</option></select></div></div></div><button class="btn primary" style="margin-top:18px" onclick="examPlan()">Generate Study Plan</button><div id="plan" style="margin-top:18px"></div></div>
+    </section>
+
+    <section id="progress" class="page">
+      <div class="top"><div><h1>My Progress 📊</h1><p>See how your learning is developing over time.</p></div></div>
+      <div class="grid g3"><div class="card"><small class="muted">Mathematics</small><h2 style="margin:7px 0 12px">78%</h2><div class="progress"><div style="width:78%"></div></div></div><div class="card"><small class="muted">Physics</small><h2 style="margin:7px 0 12px">64%</h2><div class="progress"><div style="width:64%"></div></div></div><div class="card"><small class="muted">Chemistry</small><h2 style="margin:7px 0 12px">85%</h2><div class="progress"><div style="width:85%"></div></div></div></div>
+      <div class="section"><h2>Learning journey</h2></div><div class="card"><h3>⭐ Esteem through learning</h3><p class="muted" style="margin-top:7px">LearnNova focuses on helping students develop competence, knowledge and confidence by making progress visible.</p><div style="margin-top:20px"><div style="display:flex;justify-content:space-between"><span>Overall progress</span><b>76%</b></div><div class="progress" style="margin-top:8px"><div style="width:76%"></div></div></div><p style="margin-top:18px;color:var(--green);font-weight:700">🎉 You've improved 12% this month.</p></div>
+    </section>
+
+    <section id="profile" class="page">
+      <div class="top"><div><h1>My Profile ⚙️</h1><p>Your educational profile powers personalization.</p></div></div>
+      <div class="card"><div class="grid g2 form"><div><label>Country</label><input id="pCountry"></div><div><label>Age</label><input id="pAge"></div><div><label>Academic level</label><input id="pLevel"></div><div><label>Academic year</label><input id="pYear"></div><div><label>Field / Stream</label><input id="pField"></div><div><label>Preferred language</label><select><option>English</option><option>French</option><option>Arabic</option><option>Spanish</option></select></div></div><button class="btn primary" style="margin-top:18px" onclick="saveProfile()">Save changes</button></div>
+      <div class="section"><h2>Curriculum verification</h2></div><div class="card"><h3>Use verified information</h3><p class="muted" style="margin-top:7px">LearnNova should never pretend that an unverified curriculum is official. When official curriculum information cannot be verified, students can upload their official syllabus and adapt their learning plan to it.</p></div>
+      <div class="section"><h2>Meet the Creator</h2></div><div class="card creator"><div class="creator-avatar">KL</div><div><h2>Khaoula Lamghari</h2><p>Creator of LearnNova AI — a student-focused project combining artificial intelligence with personalized education and smarter study habits.</p><a class="email" href="mailto:khaoulalamghari5@gmail.com">✉ khaoulalamghari5@gmail.com</a></div></div>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+let step=1;
+let student=JSON.parse(localStorage.getItem("learnnovaStudent")||"null");
+
+document.addEventListener("DOMContentLoaded",()=>{
+  if(student) startApp(); else {document.getElementById("onboarding").style.display="flex";document.getElementById("back").style.visibility="hidden";}
+});
+
+function nextStep(){
+  const ids=["country","age","level","academicYear","field"];
+  if(!document.getElementById(ids[step-1]).value.trim()){toast("Please complete this step first.");return}
+  if(step<5){step++;updateSteps()}else{
+    student={name:"Khaoula",country:country.value,age:age.value,level:level.value,academicYear:academicYear.value,field:field.value};
+    localStorage.setItem("learnnovaStudent",JSON.stringify(student));startApp();toast("Your LearnNova profile is ready!");
+  }
+}
+function prevStep(){if(step>1){step--;updateSteps()}}
+function updateSteps(){
+  document.querySelectorAll(".step").forEach(x=>x.classList.remove("active"));
+  document.querySelector('[data-step="'+step+'"]').classList.add("active");
+  document.querySelectorAll(".dot").forEach((x,i)=>x.classList.toggle("active",i<step));
+  document.getElementById("back").style.visibility=step===1?"hidden":"visible";
+  document.getElementById("next").textContent=step===5?"Create My LearnNova":"Continue";
+}
+function startApp(){
+  document.getElementById("onboarding").style.display="none";
+  document.getElementById("app").style.display="flex";
+  refreshProfile();
+}
+function refreshProfile(){
+  if(!student)return;
+  document.getElementById("welcome").textContent="Welcome back, "+student.name+" 👋";
+  document.getElementById("subtitle").textContent=student.level+" • "+student.field+" • "+student.country;
+  pCountry.value=student.country;pAge.value=student.age;pLevel.value=student.level;pYear.value=student.academicYear;pField.value=student.field;
+}
+function showPage(id,btn){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  if(btn)btn.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function openSubject(s){subjectTitle.textContent="My "+s+" Program";showPage("learning")}
+function sendMessage(){
+  const input=document.getElementById("chatInput"),text=input.value.trim();if(!text)return;
+  addMsg(text,"user");input.value="";
+  setTimeout(()=>{
+    let r="Let's break that down step by step. Start with the main concept, connect it to an example, and then practice it.";
+    if(text.toLowerCase().includes("derivative"))r="A derivative tells you how quickly something changes. For example, if f(x)=x², then f'(x)=2x.";
+    if(text.toLowerCase().includes("quiz"))r="Quick quiz: If f(x)=x², what is f'(x)? A) x  B) 2x  C) x²  D) 2";
+    if(text.toLowerCase().includes("wrong"))r="Let's find the mistake together. Check the formula first, then substitute the values carefully, and finally verify the result.";
+    addMsg(r,"ai");
+  },600);
+}
+function addMsg(text,type){
+  const wrap=document.getElementById("messages"),m=document.createElement("div");m.className="msg "+type;
+  const b=document.createElement("div");b.className="bubble";b.textContent=text;m.appendChild(b);wrap.appendChild(m);wrap.scrollTop=wrap.scrollHeight;
+}
+function fileSelected(input){if(!input.files.length)return;document.getElementById("filename").textContent="Selected: "+input.files[0].name;document.getElementById("fileActions").style.display="block";toast("Lesson uploaded successfully.")}
+function uploadAction(a){toast(a+" mode selected. Connect an AI backend here for real processing.")}
+function examPlan(){
+  if(!document.getElementById("examDate").value){toast("Please select your exam date.");return}
+  document.getElementById("plan").innerHTML='<div class="card" style="background:#f6f3ff"><h3>🎯 Your study plan</h3><p class="muted" style="margin:7px 0 14px">A real AI version would use your curriculum, weak areas and available study time.</p><div style="display:grid;gap:9px"><div>📅 Day 1 — Mathematics: Functions</div><div>⚛️ Day 2 — Physics: Mechanics</div><div>🧪 Day 3 — Chemistry: Key concepts</div><div>🧠 Day 4 — Practice weak areas</div><div>📋 Day 5 — Full practice test</div></div></div>';
+}
+function saveProfile(){
+  student={...student,country:pCountry.value,age:pAge.value,level:pLevel.value,academicYear:pYear.value,field:pField.value};
+  localStorage.setItem("learnnovaStudent",JSON.stringify(student));refreshProfile();toast("Profile updated successfully.");
+}
+function toast(message){const t=document.getElementById("toast");t.textContent=message;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600)}
+</script>
+</body>
+</html>
